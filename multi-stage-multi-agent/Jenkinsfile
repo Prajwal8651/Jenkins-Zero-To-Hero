@@ -1,20 +1,25 @@
 pipeline {
-  agent none
+  agent none   // No global agent, each stage runs in its own container
+
   stages {
     stage('Back-end') {
       agent {
         docker { image 'maven:3.8.1-adoptopenjdk-11' }
       }
       steps {
+        echo '🔧 Running Maven in Docker...'
         sh 'mvn --version'
       }
     }
+
     stage('Front-end') {
       agent {
         docker { image 'node:16-alpine' }
       }
       steps {
+        echo '🌐 Running Node.js in Docker...'
         sh 'node --version'
+        sh 'npm --version'
       }
     }
   }
